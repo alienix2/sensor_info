@@ -13,7 +13,7 @@ type Subscriber struct {
 	topic          string
 }
 
-func NewSubscriber(broker, certFile, keyFile, caFile, topic string, handler MessageHandlerStrategy, username, password string) (*Subscriber, error) {
+func NewSubscriber(broker, certFile, keyFile, caFile, topic, clientID string, handler MessageHandlerStrategy, username, password string) (*Subscriber, error) {
 	tlsConfig, err := tlsconfig.LoadTLSConfig(certFile, keyFile, caFile)
 	if err != nil {
 		return nil, fmt.Errorf("failed to configure TLS: %v", err)
@@ -21,7 +21,7 @@ func NewSubscriber(broker, certFile, keyFile, caFile, topic string, handler Mess
 
 	opts := mqtt.NewClientOptions().
 		AddBroker(broker).
-		SetClientID("generic_subscriber").
+		SetClientID(clientID).
 		SetTLSConfig(tlsConfig)
 	if username != "" && password != "" {
 		opts.SetUsername(username)

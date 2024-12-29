@@ -5,19 +5,17 @@ import (
 	"log"
 
 	"mattemoni.sensor_info/internal/mqtt_utils"
-	storage "mattemoni.sensor_info/internal/storage/devices_database"
+	storage "mattemoni.sensor_info/internal/storage/central_database"
 )
 
 func main() {
-	handler := &mqtt_utils.DatabaseMessageHandler[storage.SensorData]{
-		SaveFunc: storage.SaveJsonToSQLite[storage.SensorData],
-	}
+	handler := &mqtt_utils.CentralDatabaseMessageHandler{}
 	brokerURL := flag.String("broker", "tls://localhost:8883", "MQTT broker URL")
-	topic := flag.String("topic", "home/temperature", "MQTT topic to subscribe to")
-	username := flag.String("username", "", "MQTT username")
-	password := flag.String("password", "", "MQTT password")
+	topic := flag.String("topic", "#", "MQTT topic to subscribe to")
+	username := flag.String("username", "omnisub", "Omnisub username")
+	password := flag.String("password", "password", "Omnisub password")
+	database_path := flag.String("database_path", "mqtt_admin:Panzerotto@tcp(localhost:3306)/mqtt_users?parseTime=true", "Path to the SQLite database")
 	clientID := flag.String("clientID", "generic_subscriber", "Client ID for the subscriber")
-	database_path := flag.String("database_path", "./sqlite/subscribers.db", "Path to the SQLite database")
 	flag.Parse()
 
 	subscriber, err := mqtt_utils.NewSubscriber(
@@ -29,16 +27,16 @@ func main() {
 		*clientID,
 		handler,
 		*username,
-		*password,
-	)
+		*password)
 
-	storage.InitSQLiteDatabase(*database_path, &storage.SensorData{})
+	storage.InitMySQLCentralDatabase(*database_path)
 
 	if err != nil {
 		log.Fatalf("Failed to create MQTT subscriber: %v", err)
 	}
 	defer subscriber.Disconnect()
 
+	// Subscribe to the topic
 	err = subscriber.Subscribe()
 	if err != nil {
 		log.Fatalf("Failed to subscribe to topic: %v", err)

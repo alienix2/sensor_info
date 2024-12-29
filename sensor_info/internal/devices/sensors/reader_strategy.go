@@ -1,4 +1,4 @@
-package sensors
+package devices
 
 import (
 	"fmt"

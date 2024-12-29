@@ -1,4 +1,4 @@
-package sensors
+package devices
 
 import (
 	"fmt"
@@ -12,7 +12,7 @@ func (s *Sensor) CheckValueInRange() (bool, error) {
 		return false, err
 	}
 
-	sensorValue, err := s.ParseSensorValue(data)
+	sensorValue, err := s.ParseDeviceValue(data)
 	if err != nil {
 		log.Printf("Error parsing sensor value: %v", err)
 		return false, err // Return false and the error if the value cannot be parsed

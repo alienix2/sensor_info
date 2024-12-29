@@ -10,19 +10,41 @@ CREATE TABLE account (
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
+CREATE TABLE topics (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    topic VARCHAR(255) NOT NULL UNIQUE
+);
+
 CREATE TABLE acl (
     id INT AUTO_INCREMENT PRIMARY KEY,
     topic VARCHAR(255),
     user_id INT NOT NULL,
     rw TINYINT(1), -- 1: read-only, 2: write-only, 3: read-write
-    FOREIGN KEY (user_id) REFERENCES account(id)
+    FOREIGN KEY (user_id) REFERENCES account(id),
+    FOREIGN KEY (topic) REFERENCES topics(topic)
+);
+
+CREATE TABLE messages (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    topic VARCHAR(255),
+    sent_at DATETIME,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    sensor_data TEXT,
+    sensor_id INT,
+    sensor_name VARCHAR(255),
+    sensor_unit VARCHAR(255),
+    payload TEXT,
+    FOREIGN KEY (topic) REFERENCES topics(topic)
 );
 
 INSERT INTO account (username, password_hash, email, is_superuser)
-VALUES 
-  ('alice', '$2a$10$8zVowWEmICx7thtNSHse3.j2lYVMeF9k8yCS1Z/Cxq9rG6Q5mvG6y', 'alice@example.com', 1),
-  ('bob', '$2a$10$R0py72pgQYv0.Xz5g3w2HeEKlfy0cdb5wll5bXzjZK1pZ9m4z9pVm', 'bob@example.com', 0),
-  ('charlie', '$2a$10$yEHeVphV5ysBZmQYN8Kxq/KijPmc/NG5bZfh8e6osgXY0ryZ5a8wu', 'charlie@example.com', 0);
+VALUES
+('alice', '$2a$12$daqa1nbpP7uZ2JVrCP5iG.svoU6tIxTVhzFlzjGXCjca8SGswSeNq', 'alice@example.com', 1),
+('bob', '$2a$12$.Ty33eQhO4YZiBF70m3Gm.Qrn0cD2g2yepuOPlGAB48.MJ6RDNNPS', 'bob@example.com', 0),
+('charlie', '$2a$12$ohkW5.c.EaEwCl9ERJhuF.klr7eNfnowvcTRVKUB7Rkh3b2Oyy31e', 'charlie@example.com', 0);
+-- Passwords: password
+
+INSERT INTO topics (topic) VALUES ('home/temperature'), ('home/humidity'), ('office/temperature'), ('office/humidity');
 
 INSERT INTO acl (topic, user_id, rw)
 VALUES
@@ -33,3 +55,10 @@ VALUES
   ('office/temperature', (SELECT id FROM account WHERE username = 'charlie'), 1), -- Charlie can only read office/temperature
   ('office/humidity', (SELECT id FROM account WHERE username = 'charlie'), 2); -- Charlie can only write office/humidity
 
+INSERT INTO account (username, password_hash, email, is_superuser) VALUES ('omnisub', '$2y$10$G9omfphPp44ydARgfuCzn.2lBSDUUxzoy7pbPh41iEIncyuP8wqUe', 'omnisub@example.com', 1);
+
+INSERT INTO sensors (name, unit) 
+VALUES 
+('Temperature Sensor', 'Celsius'),
+('Humidity Sensor', 'Percent'),
+('Pressure Sensor', 'Pascal');

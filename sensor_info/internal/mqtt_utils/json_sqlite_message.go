@@ -6,19 +6,22 @@ import (
 	"log"
 
 	mqtt "github.com/eclipse/paho.mqtt.golang"
-	storage "mattemoni.sensor_info/internal/storage/sensors"
 )
 
-type DatabaseMessageHandler struct{}
+type DatabaseSaveFunc[T any] func(data T) error
 
-func (h *DatabaseMessageHandler) HandleReceive(client mqtt.Client, msg mqtt.Message) {
-	var data storage.SensorData
+type DatabaseMessageHandler[T any] struct {
+	SaveFunc DatabaseSaveFunc[T]
+}
+
+func (h *DatabaseMessageHandler[T]) HandleReceive(client mqtt.Client, msg mqtt.Message) {
+	var data T
 	if err := json.Unmarshal(msg.Payload(), &data); err != nil {
 		log.Printf("Error parsing JSON data: %v", err)
 		return
 	}
 
-	if err := storage.SaveJsonToSQLite(data); err != nil {
+	if err := h.SaveFunc(data); err != nil {
 		log.Printf("Error saving data to SQLite: %v", err)
 		return
 	}

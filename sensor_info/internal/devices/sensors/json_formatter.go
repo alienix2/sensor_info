@@ -1,4 +1,4 @@
-package sensors
+package devices
 
 import (
 	"encoding/json"
@@ -25,7 +25,6 @@ func (j *JSONFormatterStrategy) Format(data float64, name, unit, id string) (str
 		Timestamp:  time.Now().Format(time.RFC3339),
 	}
 
-	// Marshal the struct to JSON
 	jsonData, err := json.Marshal(sensorData)
 	if err != nil {
 		return "", fmt.Errorf("failed to format data as JSON: %w", err)

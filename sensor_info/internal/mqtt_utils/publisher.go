@@ -5,19 +5,21 @@ import (
 	"fmt"
 
 	mqtt "github.com/eclipse/paho.mqtt.golang"
-	sensors "mattemoni.sensor_info/internal/sensors"
+	devices "mattemoni.sensor_info/internal/devices/common"
 	tlsconfig "mattemoni.sensor_info/internal/tls_config"
 )
 
 type Publisher struct {
+	device    devices.Device
 	client    mqtt.Client
-	clientID  string
 	tlsConfig *tls.Config
+	clientID  string
+	username  string
+	password  string
 	topic     string
-	sensor    sensors.Sensor
 }
 
-func NewPublisher(brokerURL, certPath, keyPath, caPath, topic, clientID string, sensor sensors.Sensor) (*Publisher, error) {
+func NewPublisher(brokerURL, certPath, keyPath, caPath, topic, clientID string, device devices.Device, username, password string) (*Publisher, error) {
 	tlsConfig, err := tlsconfig.LoadTLSConfig(certPath, keyPath, caPath)
 	if err != nil {
 		return nil, fmt.Errorf("failed to configure TLS: %w", err)
@@ -27,6 +29,10 @@ func NewPublisher(brokerURL, certPath, keyPath, caPath, topic, clientID string, 
 		AddBroker(brokerURL).
 		SetClientID(clientID).
 		SetTLSConfig(tlsConfig)
+	if username != "" && password != "" {
+		opts.SetUsername(username)
+		opts.SetPassword(password)
+	}
 
 	client := mqtt.NewClient(opts)
 	if token := client.Connect(); token.Wait() && token.Error() != nil {
@@ -38,22 +44,23 @@ func NewPublisher(brokerURL, certPath, keyPath, caPath, topic, clientID string, 
 		topic:     topic,
 		clientID:  clientID,
 		tlsConfig: tlsConfig,
-		sensor:    sensor,
+		device:    device,
 	}, nil
 }
 
 func (p *Publisher) Publish() error {
-	data, err := p.sensor.FormatData()
+	data, err := p.device.FormatData()
 	if err != nil {
 		return fmt.Errorf("failed to read sensor data: %w", err)
 	}
 
-	token := p.client.Publish(p.topic, 1, true, data)
+	token := p.client.Publish(p.topic, 0, true, data)
 	token.Wait()
 	if token.Error() != nil {
 		return fmt.Errorf("failed to publish message: %w", token.Error())
 	}
-	fmt.Printf("Published message: %s\n", data)
+
+	fmt.Printf("Published message: %s to topic: %s\n", data, p.topic)
 	return nil
 }
 

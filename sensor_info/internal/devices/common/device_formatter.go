@@ -1,11 +1,11 @@
-package sensors
+package devices
 
 import (
 	"fmt"
 	"strconv"
 )
 
-type FormatterStrategy interface {
+type DeviceFormatterStrategy interface {
 	Format(data float64, name, unit, uid string) (string, error)
 	Parse(data string) (float64, error)
 }
