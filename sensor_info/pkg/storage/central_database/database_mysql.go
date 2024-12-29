@@ -12,10 +12,10 @@ type MessageData struct {
 	SentAt     time.Time `gorm:"not null" json:"timestamp"`
 	CreatedAt  time.Time `gorm:"autoCreateTime" json:"-"`
 	Topic      string    `gorm:"size:255" json:"topic"`
-	SensorName string    `gorm:"size:255" json:"name"`
-	SensorUnit string    `gorm:"size:255" json:"unit"`
-	SensorID   string    `gorm:"not null" json:"id"`
-	SensorData float64   `gorm:"not null" json:"sensor_data"`
+	DeviceName string    `gorm:"size:255" json:"name"`
+	DeviceUnit string    `gorm:"size:255" json:"unit"`
+	DeviceID   string    `gorm:"not null" json:"id"`
+	DeviceData float64   `gorm:"not null" json:"device_data"`
 	ID         int       `gorm:"primaryKey" json:"-"`
 }
 

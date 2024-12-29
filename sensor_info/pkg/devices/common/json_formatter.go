@@ -8,17 +8,17 @@ import (
 
 type JSONFormatterStrategy struct{}
 
-type SensorData struct {
+type DeviceData struct {
 	Name       string  `json:"name"`
 	Unit       string  `json:"unit"`
 	ID         string  `json:"id"`
 	Timestamp  string  `json:"timestamp"`
-	SensorData float64 `json:"sensor_data"`
+	DeviceData float64 `json:"device_data"`
 }
 
 func (j *JSONFormatterStrategy) Format(data float64, name, unit, id string) (string, error) {
-	sensorData := SensorData{
-		SensorData: data,
+	sensorData := DeviceData{
+		DeviceData: data,
 		Name:       name,
 		Unit:       unit,
 		ID:         id,
@@ -33,11 +33,11 @@ func (j *JSONFormatterStrategy) Format(data float64, name, unit, id string) (str
 }
 
 func (j *JSONFormatterStrategy) Parse(data string) (float64, error) {
-	var sensorData SensorData
+	var sensorData DeviceData
 	err := json.Unmarshal([]byte(data), &sensorData)
 	if err != nil {
 		return 0, fmt.Errorf("failed to parse JSON data: %w", err)
 	}
 
-	return sensorData.SensorData, nil
+	return sensorData.DeviceData, nil
 }

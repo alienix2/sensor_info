@@ -29,10 +29,10 @@ CREATE TABLE messages (
     topic VARCHAR(255),
     sent_at DATETIME,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    sensor_data TEXT,
-    sensor_id INT,
-    sensor_name VARCHAR(255),
-    sensor_unit VARCHAR(255),
+    device_data TEXT,
+    device_id INT,
+    device_name VARCHAR(255),
+    device_unit VARCHAR(255),
     payload TEXT,
     FOREIGN KEY (topic) REFERENCES topics(topic)
 );

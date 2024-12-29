@@ -4,7 +4,7 @@ import (
 	"log"
 
 	"github.com/google/uuid"
-	common "mattemoni.sensor_info/internal/devices/common"
+	common "mattemoni.sensor_info/pkg/devices/common"
 )
 
 type Sensor struct {
@@ -71,7 +71,7 @@ func WithSensorRange(min, max float64) Option {
 	}
 }
 
-func WithFormatterStrategy(formatter common.DeviceFormatterStrategy) Option {
+func WithSensorFormatterStrategy(formatter common.DeviceFormatterStrategy) Option {
 	return func(s *Sensor) {
 		s.formatter = formatter
 	}

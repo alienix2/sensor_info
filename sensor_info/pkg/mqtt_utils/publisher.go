@@ -5,8 +5,8 @@ import (
 	"fmt"
 
 	mqtt "github.com/eclipse/paho.mqtt.golang"
-	devices "mattemoni.sensor_info/internal/devices/common"
-	tlsconfig "mattemoni.sensor_info/internal/tls_config"
+	devices "mattemoni.sensor_info/pkg/devices/common"
+	tlsconfig "mattemoni.sensor_info/pkg/tls_config"
 )
 
 type Publisher struct {

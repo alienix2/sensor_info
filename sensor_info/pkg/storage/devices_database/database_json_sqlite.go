@@ -15,12 +15,12 @@ type ControlData struct {
 	ID        uint      `gorm:"primaryKey" json:"-"`
 }
 
-type SensorData struct {
+type DeviceData struct {
 	Timestamp  time.Time `gorm:"not null" json:"timestamp"`
 	Name       string    `gorm:"size:100;not null" json:"name"`
 	Unit       string    `gorm:"size:50;not null" json:"unit"`
-	SensorID   string    `gorm:"size:100;not null" json:"id"`
-	SensorData float64   `gorm:"not null" json:"sensor_data"`
+	DeviceID   string    `gorm:"size:100;not null" json:"id"`
+	DeviceData float64   `gorm:"not null" json:"device_data"`
 	ID         uint      `gorm:"primaryKey" json:"-"`
 }
 
@@ -50,8 +50,8 @@ func SaveJsonToSQLite[T any](data T) error {
 	return nil
 }
 
-func GetAllSensorData() ([]SensorData, error) {
-	var sensorData []SensorData
+func GetAllSensorData() ([]DeviceData, error) {
+	var sensorData []DeviceData
 	result := db.Find(&sensorData)
 	if result.Error != nil {
 		return nil, result.Error

@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	mqtt "github.com/eclipse/paho.mqtt.golang"
-	tlsconfig "mattemoni.sensor_info/internal/tls_config"
+	tlsconfig "mattemoni.sensor_info/pkg/tls_config"
 )
 
 type Subscriber struct {

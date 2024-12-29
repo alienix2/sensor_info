@@ -4,7 +4,7 @@ import (
 	"log"
 
 	"github.com/google/uuid"
-	common "mattemoni.sensor_info/internal/devices/common"
+	common "mattemoni.sensor_info/pkg/devices/common"
 )
 
 type Actuator struct {
@@ -65,6 +65,12 @@ func WithActuatorRange(minPower, maxPower float64) ActuatorOption {
 func WithActuatorUnit(unit string) ActuatorOption {
 	return func(a *Actuator) {
 		a.unit = unit
+	}
+}
+
+func WithActuatorFormatterStrategy(formatter common.DeviceFormatterStrategy) ActuatorOption {
+	return func(a *Actuator) {
+		a.formatter = formatter
 	}
 }
 

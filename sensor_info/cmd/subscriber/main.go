@@ -4,13 +4,13 @@ import (
 	"flag"
 	"log"
 
-	"mattemoni.sensor_info/internal/mqtt_utils"
-	storage "mattemoni.sensor_info/internal/storage/devices_database"
+	"mattemoni.sensor_info/pkg/mqtt_utils"
+	storage "mattemoni.sensor_info/pkg/storage/devices_database"
 )
 
 func main() {
-	handler := &mqtt_utils.DatabaseMessageHandler[storage.SensorData]{
-		SaveFunc: storage.SaveJsonToSQLite[storage.SensorData],
+	handler := &mqtt_utils.DatabaseMessageHandler[storage.DeviceData]{
+		SaveFunc: storage.SaveJsonToSQLite[storage.DeviceData],
 	}
 	brokerURL := flag.String("broker", "tls://localhost:8883", "MQTT broker URL")
 	topic := flag.String("topic", "home/temperature", "MQTT topic to subscribe to")
@@ -32,7 +32,7 @@ func main() {
 		*password,
 	)
 
-	storage.InitSQLiteDatabase(*database_path, &storage.SensorData{})
+	storage.InitSQLiteDatabase(*database_path, &storage.DeviceData{})
 
 	if err != nil {
 		log.Fatalf("Failed to create MQTT subscriber: %v", err)

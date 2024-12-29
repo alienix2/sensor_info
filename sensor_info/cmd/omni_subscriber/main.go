@@ -4,8 +4,8 @@ import (
 	"flag"
 	"log"
 
-	"mattemoni.sensor_info/internal/mqtt_utils"
-	storage "mattemoni.sensor_info/internal/storage/central_database"
+	"mattemoni.sensor_info/pkg/mqtt_utils"
+	storage "mattemoni.sensor_info/pkg/storage/central_database"
 )
 
 func main() {
