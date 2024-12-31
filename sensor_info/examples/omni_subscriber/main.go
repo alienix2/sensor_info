@@ -6,6 +6,7 @@ import (
 
 	"mattemoni.sensor_info/pkg/mqtt_utils"
 	storage "mattemoni.sensor_info/pkg/storage/central_database"
+	tls_config "mattemoni.sensor_info/pkg/tls_config"
 )
 
 func main() {
@@ -18,16 +19,16 @@ func main() {
 	clientID := flag.String("clientID", "generic_subscriber", "Client ID for the subscriber")
 	flag.Parse()
 
+	tlsConfig, err := tls_config.LoadCertificates("certifications/subscriber.crt", "certifications/subscriber.key", "certifications/ca.crt")
 	subscriber, err := mqtt_utils.NewSubscriber(
 		*brokerURL,
-		"certifications/subscriber.crt",
-		"certifications/subscriber.key",
-		"certifications/ca.crt",
 		*topic,
 		*clientID,
 		handler,
 		*username,
-		*password)
+		*password,
+		tlsConfig,
+	)
 
 	storage.InitMySQLCentralDatabase(*database_path)
 
@@ -36,7 +37,6 @@ func main() {
 	}
 	defer subscriber.Disconnect()
 
-	// Subscribe to the topic
 	err = subscriber.Subscribe()
 	if err != nil {
 		log.Fatalf("Failed to subscribe to topic: %v", err)

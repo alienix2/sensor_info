@@ -1,60 +1,42 @@
 package storage
 
 import (
-	"fmt"
 	"log"
-	"time"
 
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 )
 
-type ControlData struct {
-	Timestamp time.Time `gorm:"not null" json:"timestamp"`
-	Command   string    `gorm:"size:100;not null" json:"command"`
-	ID        uint      `gorm:"primaryKey" json:"-"`
-}
-
-type DeviceData struct {
-	Timestamp  time.Time `gorm:"not null" json:"timestamp"`
-	Name       string    `gorm:"size:100;not null" json:"name"`
-	Unit       string    `gorm:"size:50;not null" json:"unit"`
-	DeviceID   string    `gorm:"size:100;not null" json:"id"`
-	DeviceData float64   `gorm:"not null" json:"device_data"`
-	ID         uint      `gorm:"primaryKey" json:"-"`
-}
-
 var db *gorm.DB
 
-func InitSQLiteDatabase[T any](databasePath string, model T) {
+func InitSQLiteDatabase(dsn string, models ...interface{}) {
 	var err error
-	db, err = gorm.Open(sqlite.Open(databasePath), &gorm.Config{})
+	db, err = gorm.Open(sqlite.Open(dsn), &gorm.Config{})
 	if err != nil {
-		log.Fatalf("Failed to connect to the database: %v", err)
+		log.Fatalf("Failed to connect to database: %v", err)
 	}
 
-	err = db.AutoMigrate(model)
+	err = db.AutoMigrate(models...)
 	if err != nil {
-		log.Fatalf("Failed to migrate database schema: %v", err)
+		log.Fatalf("Failed to migrate database: %v", err)
 	}
+
 	log.Println("Database initialized successfully.")
 }
 
 func SaveJsonToSQLite[T any](data T) error {
-	fmt.Println(data)
 	result := db.Create(&data)
 	if result.Error != nil {
 		return result.Error
 	}
-	log.Printf("Sensor data saved: %+v\n", data)
+	log.Printf("Device data saved: %+v\n", data)
 	return nil
 }
 
-func GetAllSensorData() ([]DeviceData, error) {
-	var sensorData []DeviceData
-	result := db.Find(&sensorData)
+func GetAllData[T any](out *[]T) error {
+	result := db.Find(out)
 	if result.Error != nil {
-		return nil, result.Error
+		return result.Error
 	}
-	return sensorData, nil
+	return nil
 }

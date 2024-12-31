@@ -21,7 +21,7 @@ func TestJSONFormatterStrategy_Format(t *testing.T) {
 			deviceName: "TemperatureSensor",
 			unit:       "C",
 			uid:        "device-001",
-			expected:   `{"name":"TemperatureSensor","unit":"C","id":"device-001","timestamp":"`, // will assert timestamp separately
+			expected:   `{"name":"TemperatureSensor","unit":"C","id":"device-001","timestamp":"`,
 		},
 		{
 			name:       "Test JSON format with zero data",
@@ -29,7 +29,7 @@ func TestJSONFormatterStrategy_Format(t *testing.T) {
 			deviceName: "PressureSensor",
 			unit:       "Pa",
 			uid:        "device-002",
-			expected:   `{"name":"PressureSensor","unit":"Pa","id":"device-002","timestamp":"`, // will assert timestamp separately
+			expected:   `{"name":"PressureSensor","unit":"Pa","id":"device-002","timestamp":"`,
 		},
 	}
 
@@ -40,9 +40,7 @@ func TestJSONFormatterStrategy_Format(t *testing.T) {
 			result, err := formatter.Format(tt.data, tt.deviceName, tt.unit, tt.uid)
 			assert.Nil(t, err, "Expected no error during formatting")
 
-			// Ensure the formatted JSON starts with the expected string and contains a timestamp
 			assert.Contains(t, result, tt.expected, "Formatted JSON should match the expected fields")
-			// Ensure the result contains a valid timestamp
 			assert.NotEmpty(t, result, "Formatted JSON should not be empty")
 		})
 	}

@@ -1,7 +1,6 @@
 package devices
 
 import (
-	"fmt"
 	"log"
 )
 
@@ -15,17 +14,21 @@ func (s *Sensor) CheckValueInRange() (bool, error) {
 	sensorValue, err := s.ParseDeviceValue(data)
 	if err != nil {
 		log.Printf("Error parsing sensor value: %v", err)
-		return false, err // Return false and the error if the value cannot be parsed
+		return false, err
 	}
 
 	minValue, maxValue := s.GetRange()
-	thresholdMargin := (maxValue - minValue) * 0.1 // 10% margin
+	if sensorValue < minValue || sensorValue > maxValue {
+		return false, nil
+	}
+
+	thresholdMargin := (maxValue - minValue) * 0.1
 
 	if sensorValue <= minValue+thresholdMargin {
-		fmt.Printf("Warning: Sensor value %.2f is close to the minimum (%.2f)!\n", sensorValue, minValue)
+		log.Printf("Warning: Sensor value %.2f is close to the minimum (%.2f)!\n", sensorValue, minValue)
 		return true, nil
 	} else if sensorValue >= maxValue-thresholdMargin {
-		fmt.Printf("Warning: Sensor value %.2f is close to the maximum (%.2f)!\n", sensorValue, maxValue)
+		log.Printf("Warning: Sensor value %.2f is close to the maximum (%.2f)!\n", sensorValue, maxValue)
 		return true, nil
 	}
 

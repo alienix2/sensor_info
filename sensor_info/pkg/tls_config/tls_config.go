@@ -7,8 +7,7 @@ import (
 	"os"
 )
 
-// LoadTLSConfig loads the TLS configuration from the given files.
-func LoadTLSConfig(certFile, keyFile, caFile string) (*tls.Config, error) {
+func LoadCertificates(certFile, keyFile, caFile string) (*tls.Config, error) {
 	cert, err := tls.LoadX509KeyPair(certFile, keyFile)
 	if err != nil {
 		return nil, fmt.Errorf("failed to load X509 key pair: %w", err)

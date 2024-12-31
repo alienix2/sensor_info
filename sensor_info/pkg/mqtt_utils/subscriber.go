@@ -1,10 +1,11 @@
 package mqtt_utils
 
 import (
+	"crypto/tls"
 	"fmt"
+	"log"
 
 	mqtt "github.com/eclipse/paho.mqtt.golang"
-	tlsconfig "mattemoni.sensor_info/pkg/tls_config"
 )
 
 type Subscriber struct {
@@ -13,16 +14,15 @@ type Subscriber struct {
 	topic          string
 }
 
-func NewSubscriber(broker, certFile, keyFile, caFile, topic, clientID string, handler MessageHandlerStrategy, username, password string) (*Subscriber, error) {
-	tlsConfig, err := tlsconfig.LoadTLSConfig(certFile, keyFile, caFile)
-	if err != nil {
-		return nil, fmt.Errorf("failed to configure TLS: %v", err)
-	}
-
+func NewSubscriber(broker, topic, clientID string, handler MessageHandlerStrategy, username, password string, tlsConfig *tls.Config) (*Subscriber, error) {
 	opts := mqtt.NewClientOptions().
 		AddBroker(broker).
-		SetClientID(clientID).
-		SetTLSConfig(tlsConfig)
+		SetClientID(clientID)
+
+	if tlsConfig != nil {
+		opts.SetTLSConfig(tlsConfig)
+	}
+
 	if username != "" && password != "" {
 		opts.SetUsername(username)
 		opts.SetPassword(password)
@@ -47,7 +47,7 @@ func (s *Subscriber) Subscribe() error {
 		return fmt.Errorf("failed to subscribe to topic: %v", token.Error())
 	}
 
-	fmt.Println("Subscribed to topic:", s.topic)
+	log.Println("Subscribed to topic:", s.topic)
 	return nil
 }
 
@@ -57,5 +57,17 @@ func (s *Subscriber) Wait() {
 
 func (s *Subscriber) Disconnect() {
 	s.client.Disconnect(250)
-	fmt.Println("Subscriber disconnected")
+	log.Println("Subscriber disconnected")
+}
+
+func (s *Subscriber) GetClient() mqtt.Client {
+	return s.client
+}
+
+func (s *Subscriber) GetTopic() string {
+	return s.topic
+}
+
+func (s *Subscriber) GetMessageHandler() MessageHandlerStrategy {
+	return s.messageHandler
 }

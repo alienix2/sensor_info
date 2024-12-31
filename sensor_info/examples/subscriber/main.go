@@ -4,8 +4,9 @@ import (
 	"flag"
 	"log"
 
-	"mattemoni.sensor_info/pkg/mqtt_utils"
+	mqtt_utils "mattemoni.sensor_info/pkg/mqtt_utils"
 	storage "mattemoni.sensor_info/pkg/storage/devices_database"
+	tls_config "mattemoni.sensor_info/pkg/tls_config"
 )
 
 func main() {
@@ -20,16 +21,15 @@ func main() {
 	database_path := flag.String("database_path", "./sqlite/subscribers.db", "Path to the SQLite database")
 	flag.Parse()
 
+	tlsConfig, err := tls_config.LoadCertificates("certifications/subscriber.crt", "certifications/subscriber.key", "certifications/ca.crt")
 	subscriber, err := mqtt_utils.NewSubscriber(
 		*brokerURL,
-		"certifications/subscriber.crt",
-		"certifications/subscriber.key",
-		"certifications/ca.crt",
 		*topic,
 		*clientID,
 		handler,
 		*username,
 		*password,
+		tlsConfig,
 	)
 
 	storage.InitSQLiteDatabase(*database_path, &storage.DeviceData{})

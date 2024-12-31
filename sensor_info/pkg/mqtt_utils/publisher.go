@@ -3,32 +3,29 @@ package mqtt_utils
 import (
 	"crypto/tls"
 	"fmt"
+	"log"
 
 	mqtt "github.com/eclipse/paho.mqtt.golang"
 	devices "mattemoni.sensor_info/pkg/devices/common"
-	tlsconfig "mattemoni.sensor_info/pkg/tls_config"
 )
 
 type Publisher struct {
-	device    devices.Device
-	client    mqtt.Client
-	tlsConfig *tls.Config
-	clientID  string
-	username  string
-	password  string
-	topic     string
+	device   devices.Device
+	client   mqtt.Client
+	username string
+	password string
+	topic    string
 }
 
-func NewPublisher(brokerURL, certPath, keyPath, caPath, topic, clientID string, device devices.Device, username, password string) (*Publisher, error) {
-	tlsConfig, err := tlsconfig.LoadTLSConfig(certPath, keyPath, caPath)
-	if err != nil {
-		return nil, fmt.Errorf("failed to configure TLS: %w", err)
+func NewPublisher(broker, topic, clientID string, device devices.Device, username, password string, tlsConfig *tls.Config) (*Publisher, error) {
+	opts := mqtt.NewClientOptions().
+		AddBroker(broker).
+		SetClientID(clientID)
+
+	if tlsConfig != nil {
+		opts.SetTLSConfig(tlsConfig)
 	}
 
-	opts := mqtt.NewClientOptions().
-		AddBroker(brokerURL).
-		SetClientID(clientID).
-		SetTLSConfig(tlsConfig)
 	if username != "" && password != "" {
 		opts.SetUsername(username)
 		opts.SetPassword(password)
@@ -40,11 +37,9 @@ func NewPublisher(brokerURL, certPath, keyPath, caPath, topic, clientID string, 
 	}
 
 	return &Publisher{
-		client:    client,
-		topic:     topic,
-		clientID:  clientID,
-		tlsConfig: tlsConfig,
-		device:    device,
+		client: client,
+		topic:  topic,
+		device: device,
 	}, nil
 }
 
@@ -60,11 +55,11 @@ func (p *Publisher) Publish() error {
 		return fmt.Errorf("failed to publish message: %w", token.Error())
 	}
 
-	fmt.Printf("Published message: %s to topic: %s\n", data, p.topic)
+	log.Printf("Published message: %s to topic: %s\n", data, p.topic)
 	return nil
 }
 
 func (p *Publisher) Disconnect() {
 	p.client.Disconnect(250)
-	fmt.Println("Publisher disconnected.")
+	log.Println("Publisher disconnected.")
 }

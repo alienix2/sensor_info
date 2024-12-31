@@ -10,8 +10,9 @@ import (
 	actuators "mattemoni.sensor_info/pkg/devices/actuators"
 	common "mattemoni.sensor_info/pkg/devices/common"
 	sensors "mattemoni.sensor_info/pkg/devices/sensors"
-	"mattemoni.sensor_info/pkg/mqtt_utils"
+	mqtt_utils "mattemoni.sensor_info/pkg/mqtt_utils"
 	storage "mattemoni.sensor_info/pkg/storage/devices_database"
+	tls_config "mattemoni.sensor_info/pkg/tls_config"
 )
 
 func main() {
@@ -43,16 +44,15 @@ func main() {
 		actuators.WithActuatorFormatterStrategy(&common.JSONFormatterStrategy{}),
 	)
 
+	tlsConfig, err := tls_config.LoadCertificates("certifications/publisher.crt", "certifications/publisher.key", "certifications/ca.crt")
 	publisher, err := mqtt_utils.NewPublisher(
 		*brokerURL,
-		"certifications/subscriber.crt",
-		"certifications/subscriber.key",
-		"certifications/ca.crt",
 		*topic,
 		"generic_publisher",
 		actuator,
 		*username,
 		*password,
+		tlsConfig,
 	)
 	if err != nil {
 		log.Fatalf("Failed to initialize publisher: %v", err)
@@ -71,16 +71,15 @@ func main() {
 		},
 	}
 
+	tlsConfig, err = tls_config.LoadCertificates("certifications/subscriber.crt", "certifications/subscriber.key", "certifications/ca.crt")
 	subscriber, err := mqtt_utils.NewSubscriber(
 		*brokerURL,
-		"certifications/subscriber.crt",
-		"certifications/subscriber.key",
-		"certifications/ca.crt",
 		"$"+*topic+"/control",
 		*clientID,
 		controlHandler,
 		*username,
 		*password,
+		tlsConfig,
 	)
 	if err != nil {
 		log.Fatalf("Failed to initialize control subscriber: %v", err)

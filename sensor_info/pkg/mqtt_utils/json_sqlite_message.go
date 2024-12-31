@@ -2,7 +2,6 @@ package mqtt_utils
 
 import (
 	"encoding/json"
-	"fmt"
 	"log"
 
 	mqtt "github.com/eclipse/paho.mqtt.golang"
@@ -26,5 +25,5 @@ func (h *DatabaseMessageHandler[T]) HandleReceive(client mqtt.Client, msg mqtt.M
 		return
 	}
 
-	fmt.Println("Data stored successfully!")
+	log.Println("Data stored successfully!")
 }
