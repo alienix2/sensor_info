@@ -5,8 +5,8 @@ import (
 	"log"
 
 	mqtt "github.com/eclipse/paho.mqtt.golang"
-	central_storage "mattemoni.sensor_info/pkg/storage/central_database"
-	sensors_storage "mattemoni.sensor_info/pkg/storage/devices_database"
+	central_storage "github.com/alienix2/sensor_info/pkg/storage/central_database"
+	sensors_storage "github.com/alienix2/sensor_info/pkg/storage/devices_database"
 )
 
 type CentralDatabaseMessageHandler struct{}

@@ -5,7 +5,7 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	mocks "mattemoni.sensor_info/pkg/devices/common/mocks"
+	mocks "github.com/alienix2/sensor_info/pkg/devices/common/mocks"
 )
 
 // Defined here to avoid import cycle

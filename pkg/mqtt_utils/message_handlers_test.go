@@ -9,7 +9,7 @@ import (
 
 	server "github.com/mochi-mqtt/server/v2"
 	"github.com/stretchr/testify/assert"
-	storage "mattemoni.sensor_info/pkg/storage/devices_database"
+	storage "github.com/alienix2/sensor_info/pkg/storage/devices_database"
 )
 
 var (

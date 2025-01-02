@@ -3,7 +3,7 @@ package mqtt_utils
 import (
 	"testing"
 
-	mocks "mattemoni.sensor_info/pkg/mqtt_utils/mocks"
+	mocks "github.com/alienix2/sensor_info/pkg/mqtt_utils/mocks"
 
 	"github.com/stretchr/testify/assert"
 )

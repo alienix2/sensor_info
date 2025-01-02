@@ -4,7 +4,7 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	"mattemoni.sensor_info/pkg/devices/common/mocks"
+	"github.com/alienix2/sensor_info/pkg/devices/common/mocks"
 )
 
 func TestSensor(t *testing.T) {

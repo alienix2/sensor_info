@@ -4,9 +4,9 @@ import (
 	"flag"
 	"log"
 
-	"mattemoni.sensor_info/pkg/mqtt_utils"
-	storage "mattemoni.sensor_info/pkg/storage/central_database"
-	tls_config "mattemoni.sensor_info/pkg/tls_config"
+	"github.com/alienix2/sensor_info/pkg/mqtt_utils"
+	storage "github.com/alienix2/sensor_info/pkg/storage/central_database"
+	tls_config "github.com/alienix2/sensor_info/pkg/tls_config"
 )
 
 func main() {

@@ -1,6 +1,6 @@
 package mqtt_utils
 
-import devices "mattemoni.sensor_info/pkg/devices/common"
+import devices "github.com/alienix2/sensor_info/pkg/devices/common"
 
 type CommandRegistry struct {
 	commands map[string]devices.Command

@@ -4,7 +4,7 @@ import (
 	"log"
 
 	"github.com/google/uuid"
-	common "mattemoni.sensor_info/pkg/devices/common"
+	common "github.com/alienix2/sensor_info/pkg/devices/common"
 )
 
 type Actuator struct {

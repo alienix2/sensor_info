@@ -7,12 +7,12 @@ import (
 	"time"
 
 	"github.com/google/uuid"
-	actuators "mattemoni.sensor_info/pkg/devices/actuators"
-	common "mattemoni.sensor_info/pkg/devices/common"
-	sensors "mattemoni.sensor_info/pkg/devices/sensors"
-	mqtt_utils "mattemoni.sensor_info/pkg/mqtt_utils"
-	storage "mattemoni.sensor_info/pkg/storage/devices_database"
-	tls_config "mattemoni.sensor_info/pkg/tls_config"
+	actuators "github.com/alienix2/sensor_info/pkg/devices/actuators"
+	common "github.com/alienix2/sensor_info/pkg/devices/common"
+	sensors "github.com/alienix2/sensor_info/pkg/devices/sensors"
+	mqtt_utils "github.com/alienix2/sensor_info/pkg/mqtt_utils"
+	storage "github.com/alienix2/sensor_info/pkg/storage/devices_database"
+	tls_config "github.com/alienix2/sensor_info/pkg/tls_config"
 )
 
 func main() {

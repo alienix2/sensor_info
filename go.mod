@@ -1,4 +1,4 @@
-module mattemoni.sensor_info
+module github.com/alienix2/sensor_info
 
 go 1.23.4
 

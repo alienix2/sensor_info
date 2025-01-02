@@ -7,8 +7,8 @@ import (
 	"time"
 
 	"github.com/stretchr/testify/assert"
-	central_storage "mattemoni.sensor_info/pkg/storage/central_database"
-	storage "mattemoni.sensor_info/pkg/storage/devices_database"
+	central_storage "github.com/alienix2/sensor_info/pkg/storage/central_database"
+	storage "github.com/alienix2/sensor_info/pkg/storage/devices_database"
 )
 
 func TestCentralDatabaseMessageHandler(t *testing.T) {

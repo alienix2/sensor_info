@@ -6,7 +6,7 @@ import (
 	"log"
 
 	mqtt "github.com/eclipse/paho.mqtt.golang"
-	devices "mattemoni.sensor_info/pkg/devices/common"
+	devices "github.com/alienix2/sensor_info/pkg/devices/common"
 )
 
 type Publisher struct {

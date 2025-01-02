@@ -3,7 +3,7 @@ package devices
 import (
 	"testing"
 
-	mocks "mattemoni.sensor_info/pkg/devices/common/mocks"
+	mocks "github.com/alienix2/sensor_info/pkg/devices/common/mocks"
 
 	"github.com/stretchr/testify/assert"
 )

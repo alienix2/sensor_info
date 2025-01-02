@@ -4,7 +4,7 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	"mattemoni.sensor_info/pkg/mqtt_utils/mocks"
+	"github.com/alienix2/sensor_info/pkg/mqtt_utils/mocks"
 )
 
 func TestNewSubscriber(t *testing.T) {
