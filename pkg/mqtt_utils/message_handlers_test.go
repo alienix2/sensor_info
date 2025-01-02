@@ -7,7 +7,6 @@ import (
 	"testing"
 	"time"
 
-	mqtt "github.com/eclipse/paho.mqtt.golang"
 	server "github.com/mochi-mqtt/server/v2"
 	"github.com/stretchr/testify/assert"
 	storage "mattemoni.sensor_info/pkg/storage/devices_database"
@@ -38,19 +37,6 @@ func TestMain(m *testing.M) {
 	fmt.Printf("Exiting with code %d\n", code)
 }
 
-func createMQTTClient(t *testing.T) mqtt.Client {
-	opts := mqtt.NewClientOptions().AddBroker("tcp://" + port)
-	opts.SetClientID("testClient")
-
-	client := mqtt.NewClient(opts)
-	token := client.Connect()
-	assert.True(t, token.Wait())
-	assert.NoError(t, token.Error())
-
-	t.Cleanup(func() { client.Disconnect(250) })
-	return client
-}
-
 func MockDatabaseSaveFunc[T any](data T) error {
 	log.Printf("Mock save called with data: %+v", data)
 	return nil
@@ -70,7 +56,7 @@ func TestPrinterMessageHandler(t *testing.T) {
 	assert.NoError(t, token.Error())
 }
 
-func TestDatabaseMessageHandler(t *testing.T) {
+func TestJSONSQLiteMessageHandler(t *testing.T) {
 	client := createMQTTClient(t)
 
 	dbHandler := DatabaseMessageHandler[storage.DeviceData]{

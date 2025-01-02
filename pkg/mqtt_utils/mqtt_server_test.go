@@ -4,10 +4,13 @@ import (
 	"fmt"
 	"log"
 	"net"
+	"testing"
 
+	mqtt "github.com/eclipse/paho.mqtt.golang"
 	server "github.com/mochi-mqtt/server/v2"
 	"github.com/mochi-mqtt/server/v2/hooks/auth"
 	"github.com/mochi-mqtt/server/v2/listeners"
+	"github.com/stretchr/testify/assert"
 )
 
 func getAvailablePort() (string, error) {
@@ -42,4 +45,17 @@ func StopMockMQTTServer(mqttServer *server.Server) {
 	if err := mqttServer.Close(); err != nil {
 		log.Fatalf("Failed to stop mock MQTT server: %v", err)
 	}
+}
+
+func createMQTTClient(t *testing.T) mqtt.Client {
+	opts := mqtt.NewClientOptions().AddBroker("tcp://" + port)
+	opts.SetClientID("testClient")
+
+	client := mqtt.NewClient(opts)
+	token := client.Connect()
+	assert.True(t, token.Wait())
+	assert.NoError(t, token.Error())
+
+	t.Cleanup(func() { client.Disconnect(250) })
+	return client
 }
