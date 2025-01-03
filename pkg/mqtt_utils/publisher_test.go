@@ -3,8 +3,8 @@ package mqtt_utils
 import (
 	"testing"
 
-	"github.com/stretchr/testify/assert"
 	"github.com/alienix2/sensor_info/pkg/devices/common/mocks"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestNewPublisher(t *testing.T) {
@@ -37,6 +37,13 @@ func TestNewPublisher(t *testing.T) {
 
 	err = publisher.Publish()
 	assert.Nil(t, err, "Expected no error while publishing message")
+
+	newTopic := "test/new_topic"
+	publisher.SetTopic(newTopic)
+	assert.Equal(t, newTopic, publisher.topic, "Expected topic to be updated to the new topic")
+
+	err = publisher.Publish()
+	assert.Nil(t, err, "Expected no error while publishing message to the new topic")
 
 	publisher.Disconnect()
 

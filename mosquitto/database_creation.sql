@@ -9,6 +9,7 @@ CREATE TABLE account (
     is_superuser TINYINT(1) DEFAULT 0,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
+ALTER TABLE account ADD CONSTRAINT email_unique UNIQUE (email);
 
 CREATE TABLE topics (
     id INT AUTO_INCREMENT PRIMARY KEY,

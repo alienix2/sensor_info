@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"log"
 
-	mqtt "github.com/eclipse/paho.mqtt.golang"
 	devices "github.com/alienix2/sensor_info/pkg/devices/common"
+	mqtt "github.com/eclipse/paho.mqtt.golang"
 )
 
 type Publisher struct {
@@ -41,6 +41,10 @@ func NewPublisher(broker, topic, clientID string, device devices.Device, usernam
 		topic:  topic,
 		device: device,
 	}, nil
+}
+
+func (p *Publisher) SetTopic(topic string) {
+	p.topic = topic
 }
 
 func (p *Publisher) Publish() error {

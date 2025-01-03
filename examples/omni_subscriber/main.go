@@ -15,7 +15,7 @@ func main() {
 	topic := flag.String("topic", "#", "MQTT topic to subscribe to")
 	username := flag.String("username", "omnisub", "Omnisub username")
 	password := flag.String("password", "password", "Omnisub password")
-	database_path := flag.String("database_path", "mqtt_admin:Panzerotto@tcp(localhost:3306)/mqtt_users?parseTime=true", "Path to the SQLite database")
+	database_path := flag.String("database_path", "mqtt_admin:Panzerotto@tcp(localhost:3306)/mqtt_users?parseTime=true", "Path to MySQL database")
 	clientID := flag.String("clientID", "generic_subscriber", "Client ID for the subscriber")
 	flag.Parse()
 
