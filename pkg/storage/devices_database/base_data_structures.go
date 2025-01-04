@@ -13,7 +13,7 @@ type DeviceData struct {
 	Name        string    `gorm:"size:100;not null" json:"name"`
 	Unit        string    `gorm:"size:50;not null" json:"unit"`
 	DeviceID    string    `gorm:"size:100;not null" json:"id"`
-	DeviceData  float64   `gorm:"not null" json:"device_data"`
 	ControlData string    `gorm:"size:100;not null" json:"control_data"`
+	DeviceData  float64   `gorm:"not null" json:"device_data"`
 	ID          uint      `gorm:"primaryKey" json:"-"`
 }
