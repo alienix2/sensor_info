@@ -20,13 +20,13 @@ func (c *CentralDatabaseMessageHandler) HandleReceive(client mqtt.Client, msg mq
 	topic := msg.Topic()
 
 	messageData := central_storage.MessageData{
-		SentAt:      deviceData.Timestamp,
-		Topic:       topic,
-		DeviceName:  deviceData.Name,
-		DeviceUnit:  deviceData.Unit,
-		DeviceID:    deviceData.DeviceID,
-		DeviceData:  deviceData.DeviceData,
-		ControlData: deviceData.ControlData,
+		SentAt:     deviceData.Timestamp,
+		Topic:      topic,
+		DeviceName: deviceData.Name,
+		DeviceUnit: deviceData.Unit,
+		DeviceID:   deviceData.DeviceID,
+		DeviceData: deviceData.DeviceData,
+		Notes:      deviceData.Notes,
 	}
 
 	central_storage.SaveMessageToMySQL(messageData)

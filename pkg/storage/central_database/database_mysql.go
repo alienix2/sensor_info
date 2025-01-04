@@ -9,15 +9,15 @@ import (
 )
 
 type MessageData struct {
-	SentAt      time.Time `gorm:"not null" json:"timestamp"`
-	CreatedAt   time.Time `gorm:"autoCreateTime" json:"-"`
-	Topic       string    `gorm:"size:255" json:"topic"`
-	DeviceName  string    `gorm:"size:255" json:"name"`
-	DeviceUnit  string    `gorm:"size:255" json:"unit"`
-	DeviceID    string    `gorm:"not null" json:"id"`
-	ControlData string    `gorm:"size:255" json:"control_data"`
-	DeviceData  float64   `gorm:"not null" json:"device_data"`
-	ID          int       `gorm:"primaryKey" json:"-"`
+	SentAt     time.Time `gorm:"not null" json:"timestamp"`
+	CreatedAt  time.Time `gorm:"autoCreateTime" json:"-"`
+	Topic      string    `gorm:"size:255" json:"topic"`
+	DeviceName string    `gorm:"size:255" json:"name"`
+	DeviceUnit string    `gorm:"size:255" json:"unit"`
+	DeviceID   string    `gorm:"not null" json:"id"`
+	Notes      string    `gorm:"size:255" json:"notes"`
+	DeviceData float64   `gorm:"not null" json:"device_data"`
+	ID         int       `gorm:"primaryKey" json:"-"`
 }
 
 var db *gorm.DB

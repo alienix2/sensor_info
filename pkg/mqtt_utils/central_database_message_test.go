@@ -6,9 +6,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/stretchr/testify/assert"
 	central_storage "github.com/alienix2/sensor_info/pkg/storage/central_database"
 	storage "github.com/alienix2/sensor_info/pkg/storage/devices_database"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestCentralDatabaseMessageHandler(t *testing.T) {
@@ -34,6 +34,7 @@ func TestCentralDatabaseMessageHandler(t *testing.T) {
 		Unit:       "Celsius",
 		DeviceID:   "1234",
 		DeviceData: 23.5,
+		Notes:      "Temperature sensor",
 	}
 	payload, err := json.Marshal(testData)
 	assert.NoError(t, err)

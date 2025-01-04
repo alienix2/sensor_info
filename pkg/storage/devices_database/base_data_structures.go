@@ -9,11 +9,11 @@ type ControlData struct {
 }
 
 type DeviceData struct {
-	Timestamp   time.Time `gorm:"not null" json:"timestamp"`
-	Name        string    `gorm:"size:100;not null" json:"name"`
-	Unit        string    `gorm:"size:50;not null" json:"unit"`
-	DeviceID    string    `gorm:"size:100;not null" json:"id"`
-	ControlData string    `gorm:"size:100;not null" json:"control_data"`
-	DeviceData  float64   `gorm:"not null" json:"device_data"`
-	ID          uint      `gorm:"primaryKey" json:"-"`
+	Timestamp  time.Time `gorm:"not null" json:"timestamp"`
+	Name       string    `gorm:"size:100;not null" json:"name"`
+	Unit       string    `gorm:"size:50;not null" json:"unit"`
+	DeviceID   string    `gorm:"size:100;not null" json:"id"`
+	Notes      string    `gorm:"size:100;not null" json:"notes"`
+	DeviceData float64   `gorm:"not null" json:"device_data"`
+	ID         uint      `gorm:"primaryKey" json:"-"`
 }
