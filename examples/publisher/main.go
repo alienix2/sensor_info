@@ -46,7 +46,7 @@ func main() {
 	publisher, err := mqtt_utils.NewPublisher(
 		*brokerURL,
 		*topic,
-		"generic_publisher",
+		*clientID,
 		sensor,
 		*username,
 		*password,
@@ -72,8 +72,8 @@ func main() {
 	tlsConfig, err = tls_config.LoadCertificates("certifications/subscriber.crt", "certifications/subscriber.key", "certifications/ca.crt")
 	subscriber, err := mqtt_utils.NewSubscriber(
 		*brokerURL,
-		*topic,
-		*clientID,
+		"command/"+*topic,
+		*clientID+"_command",
 		controlHandler,
 		*username,
 		*password,
