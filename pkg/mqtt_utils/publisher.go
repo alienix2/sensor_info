@@ -10,7 +10,7 @@ import (
 )
 
 type Publisher struct {
-	device   devices.Device
+	Device   devices.Device
 	client   mqtt.Client
 	username string
 	password string
@@ -39,7 +39,7 @@ func NewPublisher(broker, topic, clientID string, device devices.Device, usernam
 	return &Publisher{
 		client: client,
 		topic:  topic,
-		device: device,
+		Device: device,
 	}, nil
 }
 
@@ -48,7 +48,7 @@ func (p *Publisher) SetTopic(topic string) {
 }
 
 func (p *Publisher) Publish() error {
-	data, err := p.device.FormatData()
+	data, err := p.Device.FormatData()
 	if err != nil {
 		return fmt.Errorf("failed to read sensor data: %w", err)
 	}
@@ -66,4 +66,8 @@ func (p *Publisher) Publish() error {
 func (p *Publisher) Disconnect() {
 	p.client.Disconnect(250)
 	log.Println("Publisher disconnected.")
+}
+
+func (p *Publisher) GetDevice() devices.Device {
+	return p.Device
 }

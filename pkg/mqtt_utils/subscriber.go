@@ -60,14 +60,6 @@ func (s *Subscriber) Disconnect() {
 	log.Println("Subscriber disconnected")
 }
 
-func (s *Subscriber) GetClient() mqtt.Client {
-	return s.client
-}
-
-func (s *Subscriber) GetTopic() string {
-	return s.topic
-}
-
-func (s *Subscriber) GetMessageHandler() MessageHandlerStrategy {
-	return s.messageHandler
+func (s *Subscriber) SetMessageHandler(handler MessageHandlerStrategy) {
+	s.messageHandler = handler
 }

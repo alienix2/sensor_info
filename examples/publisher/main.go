@@ -104,29 +104,34 @@ func publishRegularly(publisher *mqtt_utils.Publisher, interval time.Duration) {
 }
 
 func publishValue(publisher *mqtt_utils.Publisher) {
-	err := publisher.Publish()
-	if err != nil {
-		log.Printf("Error publishing sensor data: %v", err)
-	} else {
-		fmt.Println("Sensor data published successfully.")
+	if publisher.GetDevice().GetStatus() == "on" {
+
+		err := publisher.Publish()
+		if err != nil {
+			log.Printf("Error publishing sensor data: %v", err)
+		} else {
+			fmt.Println("Sensor data published successfully.")
+		}
 	}
 }
 
 func publishWarningMessages(publisher *mqtt_utils.Publisher, sensor *sensors.Sensor) {
-	ticker := time.NewTicker(1 * time.Second)
-	defer ticker.Stop()
+	if publisher.GetDevice().GetStatus() == "on" {
+		ticker := time.NewTicker(1 * time.Second)
+		defer ticker.Stop()
 
-	for range ticker.C {
-		warning, err := sensor.CheckValueInRange()
-		if err != nil {
-			log.Printf("Error monitoring sensor: %v", err)
-		}
-		if warning {
-			err := publisher.Publish()
+		for range ticker.C {
+			warning, err := sensor.CheckValueInRange()
 			if err != nil {
-				log.Printf("Error publishing warning message: %v", err)
-			} else {
-				fmt.Println("Warning message published successfully.")
+				log.Printf("Error monitoring sensor: %v", err)
+			}
+			if warning {
+				err := publisher.Publish()
+				if err != nil {
+					log.Printf("Error publishing warning message: %v", err)
+				} else {
+					fmt.Println("Warning message published successfully.")
+				}
 			}
 		}
 	}

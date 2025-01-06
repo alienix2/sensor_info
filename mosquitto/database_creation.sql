@@ -9,7 +9,6 @@ CREATE TABLE account (
     is_superuser TINYINT(1) DEFAULT 0,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
-ALTER TABLE account ADD CONSTRAINT email_unique UNIQUE (email);
 
 CREATE TABLE topics (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -57,9 +56,3 @@ VALUES
   ('office/humidity', (SELECT id FROM account WHERE username = 'charlie'), 2); -- Charlie can only write office/humidity
 
 INSERT INTO account (username, password_hash, email, is_superuser) VALUES ('omnisub', '$2y$10$G9omfphPp44ydARgfuCzn.2lBSDUUxzoy7pbPh41iEIncyuP8wqUe', 'omnisub@example.com', 1);
-
-INSERT INTO sensors (name, unit) 
-VALUES 
-('Temperature Sensor', 'Celsius'),
-('Humidity Sensor', 'Percent'),
-('Pressure Sensor', 'Pascal');

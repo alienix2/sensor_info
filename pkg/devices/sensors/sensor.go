@@ -3,8 +3,8 @@ package devices
 import (
 	"log"
 
-	"github.com/google/uuid"
 	common "github.com/alienix2/sensor_info/pkg/devices/common"
+	"github.com/google/uuid"
 )
 
 type Sensor struct {
@@ -98,7 +98,7 @@ func NewSensor(opts ...Option) *Sensor {
 		maxValue:  100,
 		formatter: &common.RawFormatterStrategy{},
 		reader:    &DefaultReader{},
-		status:    "off",
+		status:    "on",
 	}
 
 	for _, opt := range opts {

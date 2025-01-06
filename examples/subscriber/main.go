@@ -10,9 +10,6 @@ import (
 )
 
 func main() {
-	handler := &mqtt_utils.DatabaseMessageHandler[storage.DeviceData]{
-		SaveFunc: storage.SaveJsonToSQLite[storage.DeviceData],
-	}
 	brokerURL := flag.String("broker", "tls://localhost:8883", "MQTT broker URL")
 	topic := flag.String("topic", "home/temperature", "MQTT topic to subscribe to")
 	username := flag.String("username", "", "MQTT username")
@@ -20,6 +17,10 @@ func main() {
 	clientID := flag.String("clientID", "generic_subscriber", "Client ID for the subscriber")
 	database_path := flag.String("database_path", "./sqlite/subscribers.db", "Path to the SQLite database")
 	flag.Parse()
+
+	handler := &mqtt_utils.DatabaseMessageHandler[storage.DeviceData]{
+		SaveFunc: storage.SaveJsonToSQLite[storage.DeviceData],
+	}
 
 	tlsConfig, err := tls_config.LoadCertificates("certifications/subscriber.crt", "certifications/subscriber.key", "certifications/ca.crt")
 	subscriber, err := mqtt_utils.NewSubscriber(
