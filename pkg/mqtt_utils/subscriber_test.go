@@ -3,25 +3,14 @@ package mqtt_utils
 import (
 	"testing"
 
-	"github.com/stretchr/testify/assert"
 	"github.com/alienix2/sensor_info/pkg/mqtt_utils/mocks"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestNewSubscriber(t *testing.T) {
 	if testing.Short() {
 		t.Skip("models: skipping integration test")
 	}
-
-	port, err := getAvailablePort()
-	if err != nil {
-		t.Fatalf("Error finding available port: %v", err)
-	}
-
-	mqttServer, err := StartMockMQTTServer(port)
-	if err != nil {
-		t.Fatalf("Failed to start mock MQTT server: %v", err)
-	}
-	defer StopMockMQTTServer(mqttServer)
 
 	clientID := "myTestClientID"
 	topic := "test/topic"

@@ -7,9 +7,9 @@ import (
 	"testing"
 	"time"
 
+	storage "github.com/alienix2/sensor_info/pkg/storage/devices_database"
 	server "github.com/mochi-mqtt/server/v2"
 	"github.com/stretchr/testify/assert"
-	storage "github.com/alienix2/sensor_info/pkg/storage/devices_database"
 )
 
 var (
@@ -20,7 +20,7 @@ var (
 func TestMain(m *testing.M) {
 	var err error
 
-	port, err = getAvailablePort()
+	port, err = GetAvailablePort()
 	if err != nil {
 		log.Fatalf("Error finding available port: %v", err)
 	}

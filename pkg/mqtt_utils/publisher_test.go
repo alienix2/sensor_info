@@ -12,17 +12,6 @@ func TestNewPublisher(t *testing.T) {
 		t.Skip("models: skipping integration test")
 	}
 
-	port, err := getAvailablePort()
-	if err != nil {
-		t.Fatalf("Error finding available port: %v", err)
-	}
-
-	mqttServer, err := StartMockMQTTServer(port)
-	if err != nil {
-		t.Fatalf("Failed to start mock MQTT server: %v", err)
-	}
-	defer StopMockMQTTServer(mqttServer)
-
 	clientID := "myTestClientID"
 	topic := "test/topic"
 	username := ""
