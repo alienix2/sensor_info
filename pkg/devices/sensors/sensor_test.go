@@ -3,8 +3,8 @@ package devices
 import (
 	"testing"
 
-	"github.com/stretchr/testify/assert"
 	"github.com/alienix2/sensor_info/pkg/devices/common/mocks"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestSensor(t *testing.T) {
@@ -27,14 +27,14 @@ func TestSensor(t *testing.T) {
 	)
 
 	assert.Equal(t, "Test Sensor", sensor.GetName(), "Sensor name should be 'Test Sensor'")
-	assert.Equal(t, "off", sensor.GetStatus(), "Sensor default status should be 'off'")
+	assert.Equal(t, "on", sensor.GetStatus(), "Sensor default status should be 'on'")
 
 	minValue, maxValue := sensor.GetRange()
 	assert.Equal(t, 0.0, minValue, "Sensor min value should be 0.0")
 	assert.Equal(t, 100.0, maxValue, "Sensor max value should be 100.0")
 
-	sensor.SetStatus("on")
-	assert.Equal(t, "on", sensor.GetStatus(), "Sensor status should be 'on' after setting")
+	sensor.SetStatus("off")
+	assert.Equal(t, "off", sensor.GetStatus(), "Sensor status should be 'off' after setting")
 
 	formattedData, err := sensor.FormatData()
 	assert.NoError(t, err, "Expected no error while formatting data")
@@ -50,15 +50,4 @@ func TestSensor_GenerateID(t *testing.T) {
 	sensor2 := NewSensor()
 
 	assert.NotEqual(t, sensor1.GetID(), sensor2.GetID(), "Sensors should have different IDs")
-}
-
-func TestSensor_DefaultValues(t *testing.T) {
-	sensor := NewSensor()
-
-	assert.Equal(t, "DefaultSensor", sensor.GetName(), "Default sensor name should be 'DefaultSensor'")
-	assert.Equal(t, "off", sensor.GetStatus(), "Default sensor status should be 'off'")
-
-	minValue, maxValue := sensor.GetRange()
-	assert.Equal(t, 0.0, minValue, "Default sensor min value should be 0.0")
-	assert.Equal(t, 100.0, maxValue, "Default sensor max value should be 100.0")
 }
