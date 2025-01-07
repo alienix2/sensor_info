@@ -91,7 +91,7 @@ func main() {
 
 	go subscriber.Wait()
 	go publishWarningMessages(publisher, sensor)
-	publishRegularly(publisher, time.Duration(*interval)*time.Second) // Publish every 'interval' seconds}
+	publishRegularly(publisher, time.Duration(*interval)*time.Second)
 }
 
 func publishRegularly(publisher *mqtt_utils.Publisher, interval time.Duration) {
@@ -116,12 +116,12 @@ func publishValue(publisher *mqtt_utils.Publisher) {
 }
 
 func publishWarningMessages(publisher *mqtt_utils.Publisher, sensor *sensors.Sensor) {
-	if publisher.GetDevice().GetStatus() == "on" {
-		ticker := time.NewTicker(1 * time.Second)
-		defer ticker.Stop()
+	ticker := time.NewTicker(1 * time.Second)
+	defer ticker.Stop()
 
-		for range ticker.C {
-			warning, err := sensor.CheckValueInRange()
+	for range ticker.C {
+		warning, err := sensor.CheckValueInRange()
+		if publisher.GetDevice().GetStatus() == "on" {
 			if err != nil {
 				log.Printf("Error monitoring sensor: %v", err)
 			}
