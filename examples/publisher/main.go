@@ -11,9 +11,14 @@ import (
 	mqtt_utils "github.com/alienix2/sensor_info/pkg/mqtt_utils"
 	storage "github.com/alienix2/sensor_info/pkg/storage/devices_database"
 	tls_config "github.com/alienix2/sensor_info/pkg/tls_config"
+	"github.com/google/uuid"
 )
 
 func main() {
+	defaultUUID, err := uuid.NewUUID()
+	if err != nil {
+		log.Fatalf("Failed to generate UUID: %v", err)
+	}
 	brokerURL := flag.String("broker", "tls://localhost:8883", "MQTT broker URL")
 	interval := flag.Int("interval", 5, "Publish interval in seconds")
 	username := flag.String("username", "", "MQTT username")
@@ -23,7 +28,8 @@ func main() {
 	rangeMax := flag.Float64("rangeMax", 20, "Maximum value for the sensor")
 	unit := flag.String("unit", "Units", "Unit of the sensor")
 	sensorName := flag.String("sensorName", "RandomSensor", "Name of the sensor")
-	clientID := flag.String("clientID", "generic_publisher", "Client ID for the publisher")
+	clientID := flag.String("clientID", defaultUUID.String(), "Client ID for the publisher")
+
 	flag.Parse()
 
 	sensor := sensors.NewSensor(
