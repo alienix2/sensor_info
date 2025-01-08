@@ -1,4 +1,7 @@
-certifications/
+certifications/*
 mosquitto/mosquitto.conf
 grpc/
-mosquitto/
+mosquitto/*
+!certifications/IGNORE.md
+!mosquitto/mosquitto.conf
+!mosquitto/init.sql
