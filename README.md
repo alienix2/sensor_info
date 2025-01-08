@@ -14,7 +14,7 @@ An app to visualize the data stored in the MySQL database is provided at the fol
 
 ## Broker
 
-The examples are setup to dialog easily with the Mosquitto broker, in particular there's the handling of the tls communication
+The examples are setup to dialog easily with the Mosquitto broker, in particular there's the handling of the tls communication. Anyway the library is broker agnostic and is tested using another broker that can be launched directly from inside the test files.
 
 ## Testing
 
@@ -29,3 +29,11 @@ In particular there are:
 - One example of a publisher, which represents a sensor that sends data to the broker using JSON at specific time intervals and if the value that it reads is not within a specific range. That publisher also automatically subscribes to a topic used for internal communications (turning on/off a sensor etc.)
 - One example of a subscriber, which represents a sensor that receives data in JSON format from the broker and stores it in a local SQLite database. The subscriber also has a simple implementation of the handler that verifies the data received
 - One omnisubscriber which subscribes to all the topics and stores the message data in a MySQL database. This subscriber is given as it's fundamental to handle the visualization of all the data sent to a broker as today there is no easy way to handle the easy storing of such data directly from the Mosquitto broker.
+
+### Usage of the examples
+
+The examples can be run using the `go run examples/<sepcific_example_folder>` command. By default they look for certifications inside the *certifications* folder **which is empty by default** and therefore the publisher and subscribers will run without any certificate.
+
+The default broker address is the one usually set up for the TLS, if you want to use the default one for the TCP one, pass it as a parameter.
+
+If you need them to be used, just put the inside that folder.
