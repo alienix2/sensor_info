@@ -53,7 +53,7 @@ func (p *Publisher) Publish() error {
 		return fmt.Errorf("failed to read sensor data: %w", err)
 	}
 
-	token := p.client.Publish(p.topic, 0, true, data)
+	token := p.client.Publish(p.topic, 1, true, data)
 	token.Wait()
 	if token.Error() != nil {
 		return fmt.Errorf("failed to publish message: %w", token.Error())

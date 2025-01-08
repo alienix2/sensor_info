@@ -8,10 +8,6 @@ import (
 )
 
 func TestNewPublisher(t *testing.T) {
-	if testing.Short() {
-		t.Skip("models: skipping integration test")
-	}
-
 	clientID := "myTestClientID"
 	topic := "test/topic"
 	username := ""
